@@ -63,7 +63,24 @@ void    *ft_memcpy (void *dst, const void *src, size_t n)
 
 void    *ft_memmove (void *dst, const void *src, size_t n)
 {
+	unsigned char   *dst2;
+    unsigned char   *src2;
 
+    dst2 = dst;
+    src2 = src;
+    if (src < dst)
+    {
+        src2 = src2 + len - 1;
+        dst2 = dst2 + len - 1;
+        while (len > 0)
+            *dst2-- = *src2--;
+    }
+    else if (src >= dst)
+    {
+        while (len > 0)
+            *dst2++ = *src2++;
+    }
+    return (dst);
 }
 
 unsigned int    ft_strlcpy(char *dst, char *src, unsigned int size)
@@ -118,3 +135,95 @@ int ft_tolower(int c)
         c += 32;
     return (c);
 }
+
+#include <string.h>
+
+char *ft_strchr(const char *s, int c)
+{
+    char    *chr;
+
+    chr = s;
+    while (*chr != c)
+    {
+        if (!*chr)
+            return (NULL);
+        chr++
+    }
+    return (chr);
+}
+
+#include <string.h>
+int 	ft_strlen (char *str);
+
+char *ft_strrchr(const char *s, int c)
+{
+    int i;
+
+    i = ft_strlen(s);
+    while (i >= 0)
+    {
+        if (s[i] == (char)c)
+            return ((char*)s + i);
+        i--;
+    }
+    return (NULL);
+}
+
+#include <string.h>
+
+int ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+    unsigned int	i;
+	int				b;
+
+	i = 0;
+	b = 0;
+	while ((s1[i] || s2[i]) && b == 0 && i < n)
+	{
+		if (s1[i] != s2[i])
+			b = s1[i] - s2[i];
+		i++;
+	}
+	return (b);
+}
+
+#include <string.h>
+
+void *ft_memchr(const void *s, int c, size_t n)
+{
+    size_t  i;
+    char    *str;
+
+    if (s == NULL)
+        return (NULL);
+    i = 0;
+    str = s;
+    while (i < n)
+    {
+        if (str[i] == (char)c)
+            return (str[i]);
+        i++;
+    }
+    return (NULL);
+}
+
+#include <string.h>
+
+int ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+    unsigned char   *sa;
+    unsigned char   *sb;
+    size_t          i;
+
+    sa = s1;
+    sb = s2;
+    i = 0;
+    while (i < n)
+    {
+        if (sa[i] != sb[i])
+            return (sa[i] - sb[i]);
+        i++;
+    }
+    return (0);
+}
+
