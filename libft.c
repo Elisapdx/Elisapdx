@@ -211,8 +211,8 @@ void *ft_memchr(const void *s, int c, size_t n)
 
 int ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-    unsigned char   *sa;
-    unsigned char   *sb;
+    unsigned char   *sa;  copie de s1
+    unsigned char   *sb;  copie de s2
     size_t          i;
 
     sa = s1;
