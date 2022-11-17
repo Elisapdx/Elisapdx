@@ -6,7 +6,7 @@
 /*   By: epraduro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:15:20 by epraduro          #+#    #+#             */
-/*   Updated: 2022/11/16 15:24:31 by epraduro         ###   ########.fr       */
+/*   Updated: 2022/11/17 12:32:28 by epraduro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	int	a;
-
-	a = 0;
-	while (s[a] != '\0')
-	{
-		ft_putchar_fd(s[a], fd);
-		a++;
-	}
+	if (fd < 0)
+		return ;
+	if (!s)
+		return ;
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
