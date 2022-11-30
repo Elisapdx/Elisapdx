@@ -1,19 +1,20 @@
 #!/bin/bash
+
 arc=$(uname -a)     /* afficher toutes les informations possibles sur votre système en cours d'execution */
-cpu=$(lscpu | grep 'par socket' | awk '{ print $4 }')
-vcpu=$(lscpu | grep 'Thread' | awk '{ print $4 }')
+cpu=$(lscpu | cat /proc/cpuinfo | grep -i "^processor" | wc -l)         /* La commande regarde simplement dans le fichier / proc / cpuinfo, extrait le nombre de lignes contenant le mot «processor» et les passe dans wc (word count), qui renvoie un compte des CPU du système.*/
+vcpu=$(lscpu | grep 'Thread' | awk '{ print $4 }')              /* affiche le nombre de processeurs vituels contenant "thread" */
 memu1=$(sed -zE 's_.MemTotal:([0-9]).\nMemFree: ([0-9])._echo "\2/\1"kBe' /proc/meminfo)
 memu2=$(sed -zE 's.MemTotal: ([0-9]).\nMemFree:([0-9])._echo $((100\2/\1))%_e' /proc/meminfo)
 diu1=$(df -h / | grep "/dev/mapper" | awk '{print$3}' | sed 's/G//g')
 diu2=$(df -h / | grep "/dev/mapper" | awk '{print$2}' | sed 's/G//g')
 diu3=$(df -h / | grep "/dev/mapper" | awk '{print$5}')
 loadcpu=$(top -bn1 | grep 'load average' | awk '{ print $11 }' | sed 's/0,//' | sed 's/,/%/g')
-lboot=$(who -b | grep -o "[0-9]-[0-9]-[0-9] [0-9]:[0-9]")
-lvmt=$(lsblk | grep "lvm" | wc -l)
-lvmu=$(if [ $lvmt -eq 0 ]; then echo no; else echo yes; fi)
-tcp=$(ss -t state established | wc -l)
-user=$(who | wc -l)
-ip4=$(hostname -I)
+lboot=$(who -b | grep -o "[0-9]-[0-9]-[0-9] [0-9]:[0-9]")       /* affiche la date et l'heure du dernier redemarrage */
+lvmt=$(lsblk | grep "lvm" | wc -l)      /* permet d'afficher les périphériques bloc (dispositif matériel qui lit ou écrit des données sous forme de blocs de taille fixe) et les compte */
+lvmu=$(if [ $lvmt -eq 0 ]; then echo no; else echo yes; fi)     /* recupere le resultat de lvmt et affiche si la création et la gestion de volumes logiques est faisable ou non */
+tcp=$(ss -t state established | wc -l)          /* affiche le nombre d'utilisateurs qui ont reussi a se connecter */
+user=$(who | wc -l)     /* affiche le nomdre d'utilisateurs qui sont actuellement connectés */
+ip4=$(hostname -I)      /* affiche le nom du système hôte en cours */
 mac=$(ip link | grep 'ether' | awk '{ print $2 }')
 sud=$(sudo cat /var/log/auth.log | grep -a 'sudo' | grep 'COMMAND' | wc -l)
 wall "    #Architecture:    $arc
